@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BADPDF – Free PDF Tools in Your Browser</title>
+<meta name="description" content="Merge, split, rotate, compress, convert and edit PDFs for free. Files are processed in your browser.">
+<style>
+:root{--bg:#fff;--fg:#1c1c24;--mut:#6b7280;--bd:#e5e7eb;--card:#fff;--red:#e5322d;--soft:#fef2f2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#15151a;--fg:#f3f4f6;--mut:#9ca3af;--bd:#2d2d36;--card:#1d1d24;--soft:#2a1a1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit;text-decoration:none}button,input,select{font:inherit;color:inherit}
+header{display:flex;align-items:center;gap:20px;padding:12px 20px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:5;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:20px}.logo i{background:var(--red);color:#fff;width:28px;height:28px;border-radius:7px;display:grid;place-items:center;font:700 11px/1 system-ui;font-style:normal}.logo b{color:var(--red)}
+nav{display:flex;gap:16px;flex-wrap:wrap;font-weight:600;font-size:14px;color:var(--mut)}nav a:hover{color:var(--red)}
+main{max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+.hero{text-align:center;padding:36px 0 20px}.hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 10px;letter-spacing:-.02em}.hero p{color:var(--mut);max-width:620px;margin:0 auto 18px}
+.search{width:min(520px,100%);padding:12px 16px;border:1px solid var(--bd);border-radius:12px;background:var(--card);box-shadow:0 1px 3px #0001}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:18px 0}.tabs button{border:1px solid var(--bd);background:var(--card);padding:6px 14px;border-radius:99px;cursor:pointer}.tabs button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.tool{display:block;border:1px solid var(--bd);background:var(--card);border-radius:14px;padding:16px;box-shadow:0 1px 3px #0000000d;transition:.15s;position:relative}
+a.tool:hover,a.tool:focus-visible{border-color:var(--red);transform:translateY(-2px);box-shadow:0 6px 16px #0001;outline:0}
+.tool.off{opacity:.55}.ic{width:36px;height:36px;border-radius:9px;background:var(--soft);color:var(--red);display:grid;place-items:center;font-weight:800;margin-bottom:8px}
+.tool h3{margin:0 0 2px;font-size:15px}.tool p{margin:0;color:var(--mut);font-size:13px}.tag{position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:#dcfce7;color:#166534}.tool.off .tag{background:#fef3c7;color:#92400e}
+h2{margin:32px 0 12px}
+.crumb{color:var(--mut);font-size:13px;margin-bottom:6px}.crumb a{color:var(--red)}
+.panel{border:1px solid var(--bd);border-radius:16px;padding:20px;background:var(--card);margin-top:14px}
+.drop{border:2px dashed var(--bd);border-radius:14px;padding:34px 16px;text-align:center;cursor:pointer;background:var(--bg)}.drop:hover,.drop.over,.drop:focus-visible{border-color:var(--red);background:var(--soft);outline:0}
+.btn{background:var(--red);color:#fff;border:0;border-radius:10px;padding:10px 20px;font-weight:700;cursor:pointer}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.sec{background:var(--card);color:var(--fg);border:1px solid var(--bd)}
+.file{display:flex;align-items:center;gap:10px;border:1px solid var(--bd);border-radius:10px;padding:8px 10px;margin-top:8px}.file img{width:36px;height:36px;object-fit:cover;border-radius:6px}.file span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.file small{color:var(--mut)}.file button{border:1px solid var(--bd);background:var(--card);border-radius:6px;cursor:pointer;padding:2px 8px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:14px}.opts label{display:grid;gap:4px;font-weight:600;font-size:13px}.opts input,.opts select{padding:8px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg)}
+.bar{height:8px;background:var(--bd);border-radius:9px;overflow:hidden;margin-top:12px}.bar div{height:100%;width:0;background:var(--red);transition:width .2s}
+.msg{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:14px}.err{background:#fee2e2;color:#991b1b}.ok{background:#dcfce7;color:#166534}.note{background:var(--soft);color:var(--mut)}
+.small{color:var(--mut);font-size:13px}footer{border-top:1px solid var(--bd);padding:24px 20px;text-align:center;color:var(--mut);font-size:13px}
+details{border:1px solid var(--bd);border-radius:10px;padding:10px 14px;margin-top:8px;background:var(--card)}summary{cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<header>
+ <a class="logo" href="#"><i>PDF</i>BAD<b>PDF</b></a>
+ <nav><a href="#">Home</a><a href="#merge">Merge</a><a href="#split">Split</a><a href="#compress">Compress</a><a href="#pdf2jpg">Convert</a><a href="#pagenum">Edit</a><a href="#about">About</a><a href="#faq">FAQ</a></nav>
+</header>
+<main id="app"></main>
+<footer>© 2026 BADPDF · Open-source acknowledgments: pdf-lib (MIT), PDF.js (Apache-2.0), JSZip (MIT/GPL dual) · Not affiliated with any other PDF service.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+"use strict";
+const L=window.PDFLib, MAXMB=100;
+try{pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"}catch(e){}
+const $=(s,e=document)=>e.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtSize=b=>b>1048576?(b/1048576).toFixed(1)+" MB":Math.max(1,Math.round(b/1024))+" KB";
+const base=n=>n.replace(/\.[^.]+$/,"");
+const pdfBlob=async d=>new Blob([await d.save()],{type:"application/pdf"});
+const load=async f=>L.PDFDocument.load(await f.arrayBuffer());
+const pdfjsDoc=async f=>pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise;
+
+/* "1-3,5,8-" → zero-based indices in the order typed. Blank = all pages. */
+function parseRange(s,n){
+  s=(s||"").trim(); if(!s) return [...Array(n).keys()];
+  const out=[];
+  for(const p of s.split(",")){
+    const m=p.trim().match(/^(\d*)\s*(-)?\s*(\d*)$/); if(!m||!p.trim()||(!m[1]&&!m[3])) throw Error("Invalid page range: \""+p.trim()+"\"");
+    let a=m[1]?+m[1]:1, b=m[2]?(m[3]?+m[3]:n):a;
+    if(a<1||b>n||a>b) throw Error("Page range \""+p.trim()+"\" is outside 1–"+n);
+    for(let i=a;i<=b;i++) out.push(i-1);
+  }
+  return out;
+}
+async function renderPage(doc,i,scale){
+  const pg=await doc.getPage(i+1), vp=pg.getViewport({scale}), c=document.createElement("canvas");
+  c.width=Math.ceil(vp.width); c.height=Math.ceil(vp.height);
+  await pg.render({canvasContext:c.getContext("2d"),viewport:vp,background:"#ffffff"}).promise;
+  return c;
+}
+const toBlob=(c,t,q)=>new Promise(r=>c.toBlob(r,t,q));
+async function embedImage(out,f){
+  const buf=await f.arrayBuffer(), u=new Uint8Array(buf,0,4);
+  if(u[0]==0xFF&&u[1]==0xD8) return out.embedJpg(buf);
+  if(u[0]==0x89&&u[1]==0x50) return out.embedPng(buf);
+  const bm=await createImageBitmap(f), c=document.createElement("canvas"); c.width=bm.width; c.height=bm.height;
+  c.getContext("2d").drawImage(bm,0,0); return out.embedPng(await (await toBlob(c,"image/png")).arrayBuffer());
+}
+const pageField={k:"pages",l:"Pages (blank = all, e.g. 1-3,5,8-)",t:"text",v:""};
+
+/* ---------- Tool definitions: run(files, opts, ctx) → [{name, blob}] ---------- */
+const img2pdf={cat:"To PDF",ic:"▣",accept:"img",multi:true,how:"Browser · pdf-lib",
+ opts:[{k:"size",l:"Page size",t:"select",o:["A4","Letter","Fit to image"],v:"A4"},{k:"orient",l:"Orientation",t:"select",o:["Auto","Portrait","Landscape"],v:"Auto"},{k:"margin",l:"Margin (pt)",t:"number",v:20},{k:"fit",l:"Image fit",t:"select",o:["Contain","Stretch to page"],v:"Contain"}],
+ async run(fs,o,c){const out=await L.PDFDocument.create();let i=0;
+  for(const f of fs){const im=await embedImage(out,f);let w=im.width,h=im.height,pw,ph;
+   if(o.size==="Fit to image"){pw=w;ph=h}else{[pw,ph]=o.size==="A4"?[595.28,841.89]:[612,792];
+    const land=o.orient==="Landscape"||(o.orient==="Auto"&&w>h); if(land)[pw,ph]=[ph,pw]}
+   const m=+o.margin||0, bw=pw-2*m, bh=ph-2*m; if(bw<=0||bh<=0) throw Error("Margin is too large for the page.");
+   let dw=bw,dh=bh; if(o.fit==="Contain"){const s=Math.min(bw/w,bh/h);dw=w*s;dh=h*s}
+   out.addPage([pw,ph]).drawImage(im,{x:(pw-dw)/2,y:(ph-dh)/2,width:dw,height:dh}); c.p(++i,fs.length)}
+  return [{name:"images.pdf",blob:await pdfBlob(out)}]}};
+const pdf2img={cat:"From PDF",ic:"▤",accept:"pdf",how:"Browser · PDF.js + Canvas",
+ opts:[pageField,{k:"dpi",l:"Resolution (DPI, 36–300)",t:"number",v:150}],
+ async run([f],o,c){const d=await pdfjsDoc(f),idx=parseRange(o.pages,d.numPages),png=this.fmt==="png",dpi=Math.min(300,Math.max(36,+o.dpi||150)),out=[];
+  for(const [k,i] of idx.entries()){const cv=await renderPage(d,i,dpi/72);
+   out.push({name:base(f.name)+"-p"+(i+1)+(png?".png":".jpg"),blob:await toBlob(cv,png?"image/png":"image/jpeg",.92)});cv.width=cv.height=0;c.p(k+1,idx.length)}
+  return out}};
+const TOOLS=[
+{id:"merge",n:"Merge PDF",d:"Combine several PDFs into one, in the order you choose.",cat:"Organize",ic:"⊕",accept:"pdf",multi:true,min:2,how:"Browser · pdf-lib",opts:[],
+ async run(fs,o,c){const out=await L.PDFDocument.create();let i=0;
+  for(const f of fs){const d=await load(f);(await out.copyPages(d,d.getPageIndices())).forEach(p=>out.addPage(p));c.p(++i,fs.length)}
+  return [{name:"merged.pdf",blob:await pdfBlob(out)}]}},
+{id:"split",n:"Split PDF",d:"Split into single pages or custom ranges.",cat:"Organize",ic:"✂",accept:"pdf",how:"Browser · pdf-lib",
+ opts:[{k:"r",l:"Ranges, comma-separated (blank = every page). e.g. 1-3,4-6,7",t:"text",v:""}],
+ async run([f],o,c){const d=await load(f),n=d.getPageCount();
+  const groups=o.r.trim()?o.r.split(",").map(g=>parseRange(g,n)):d.getPageIndices().map(i=>[i]),out=[];
+  for(const [k,g] of groups.entries()){const nd=await L.PDFDocument.create();(await nd.copyPages(d,g)).forEach(p=>nd.addPage(p));
+   out.push({name:base(f.name)+"-part"+(k+1)+".pdf",blob:await pdfBlob(nd)});c.p(k+1,groups.length)}
+  return out}},
+{id:"extract",n:"Extract / Reorder Pages",d:"Pull out pages into a new PDF. The order you type is kept (e.g. 3,1,2).",cat:"Organize",ic:"⇥",accept:"pdf",how:"Browser · pdf-lib",
+ opts:[{k:"pages",l:"Pages to keep, in order (e.g. 3,1,2-4)",t:"text",v:""}],
+ async run([f],o){const d=await load(f);if(!o.pages.trim())throw Error("Enter the pages to extract.");
+  const nd=await L.PDFDocument.create();(await nd.copyPages(d,parseRange(o.pages,d.getPageCount()))).forEach(p=>nd.addPage(p));
+  return [{name:base(f.name)+"-extracted.pdf",blob:await pdfBlob(nd)}]}},
+{id:"delete",n:"Delete Pages",d:"Remove unwanted pages from a PDF.",cat:"Organize",ic:"⌫",accept:"pdf",how:"Browser · pdf-lib",
+ opts:[{k:"pages",l:"Pages to delete (e.g. 2,4-6)",t:"text",v:""}],
+ async run([f],o){const d=await load(f);if(!o.pages.trim())throw Error("Enter the pages to delete.");
+  const del=new Set(parseRange(o.pages,d.getPageCount())),keep=d.getPageIndices().filter(i=>!del.has(i));
+  if(!keep.length)throw Error("You can't delete every page – the PDF would be empty.");
+  const nd=await L.PDFDocument.create();(await nd.copyPages(d,keep)).forEach(p=>nd.addPage(p));
+  return [{name:base(f.name)+"-trimmed.pdf",blob:await pdfBlob(nd)}]}},
+{id:"rotate",n:"Rotate PDF",d:"Rotate all or selected pages by 90°, 180° or 270°.",cat:"Organize",ic:"↻",accept:"pdf",how:"Browser · pdf-lib",
+ opts:[{k:"a",l:"Rotation (clockwise)",t:"select",o:["90","180","270"],v:"90"},pageField],
+ async run([f],o){const d=await load(f),pg=d.getPages();
+  parseRange(o.pages,pg.length).forEach(i=>pg[i].setRotation(L.degrees((pg[i].getRotation().angle+ +o.a)%360)));
+  return [{name:base(f.name)+"-rotated.pdf",blob:await pdfBlob(d)}]}},
+{id:"compress",n:"Compress PDF",d:"Shrink by re-rendering pages as JPEG images.",cat:"Optimize",ic:"⇲",accept:"pdf",how:"Browser · PDF.js + pdf-lib",
+ note:"Pages are rasterised, so text becomes non-selectable and results depend on the content. Text-only PDFs may even get larger – check the size before using it.",
+ opts:[{k:"lvl",l:"Level",t:"select",o:["Recommended","Strong","Maximum"],v:"Recommended"}],
+ async run([f],o,c){const [s,q]={Recommended:[1.5,.7],Strong:[1.2,.5],Maximum:[1,.35]}[o.lvl],d=await pdfjsDoc(f),out=await L.PDFDocument.create();
+  for(let i=0;i<d.numPages;i++){const p=await d.getPage(i+1),v=p.getViewport({scale:1}),cv=await renderPage(d,i,s),
+   im=await out.embedJpg(await (await toBlob(cv,"image/jpeg",q)).arrayBuffer());cv.width=cv.height=0;
+   out.addPage([v.width,v.height]).drawImage(im,{x:0,y:0,width:v.width,height:v.height});c.p(i+1,d.numPages)}
+  const blob=await pdfBlob(out);c.note("Original "+fmtSize(f.size)+" → "+fmtSize(blob.size)+(blob.size>=f.size?" (not smaller – keep your original).":"."));
+  return [{name:base(f.name)+"-compressed.pdf",blob}]}},
+{id:"repair",n:"Repair PDF",d:"Re-save a slightly damaged PDF with a clean structure.",cat:"Optimize",ic:"✚",accept:"pdf",how:"Browser · pdf-lib",
+ note:"Only mild structural problems can be fixed. Heavily corrupted files may still fail, and the page cannot open them in the first place.",opts:[],
+ async run([f]){const d=await L.PDFDocument.load(await f.arrayBuffer(),{throwOnInvalidObject:false,updateMetadata:false});
+  const nd=await L.PDFDocument.create();(await nd.copyPages(d,d.getPageIndices())).forEach(p=>nd.addPage(p));
+  return [{name:base(f.name)+"-repaired.pdf",blob:await pdfBlob(nd)}]}},
+{id:"flatten",n:"Flatten PDF",d:"Turn form fields into fixed page content.",cat:"Optimize",ic:"▭",accept:"pdf",how:"Browser · pdf-lib",
+ note:"Flattens AcroForm fields only. Digital signatures and other annotations are not processed.",opts:[],
+ async run([f]){const d=await load(f);d.getForm().flatten();return [{name:base(f.name)+"-flattened.pdf",blob:await pdfBlob(d)}]}},
+{id:"img2pdf",n:"Images to PDF",d:"JPG, PNG or WebP images into one PDF.",...img2pdf},
+{id:"jpg2pdf",n:"JPG to PDF",d:"Turn JPG images into a PDF.",...img2pdf,only:/jpe?g$/},
+{id:"png2pdf",n:"PNG to PDF",d:"Turn PNG images into a PDF.",...img2pdf,only:/png$/},
+{id:"pdf2jpg",n:"PDF to JPG",d:"Export pages as JPG images.",...pdf2img,fmt:"jpg"},
+{id:"pdf2png",n:"PDF to PNG",d:"Export pages as PNG images.",...pdf2img,fmt:"png"},
+{id:"pdf2text",n:"PDF to Text",d:"Extract the text layer of a PDF.",cat:"From PDF",ic:"¶",accept:"pdf",how:"Browser · PDF.js",opts:[],
+ note:"Scanned PDFs have no text layer and would need OCR, which this static page does not include.",
+ async run([f],o,c){const d=await pdfjsDoc(f);let t="",any=false;
+  for(let i=1;i<=d.numPages;i++){const s=(await (await d.getPage(i)).getTextContent()).items.map(x=>x.str).join(" ").trim();if(s)any=true;t+="--- Page "+i+" ---\n"+s+"\n\n";c.p(i,d.numPages)}
+  if(!any)throw Error("No text found. This looks like a scanned PDF and would need OCR.");
+  return [{name:base(f.name)+".txt",blob:new Blob([t],{type:"text/plain"})}]}},
+{id:"pagenum",n:"Add Page Numbers",d:"Stamp page numbers with position, format and size.",cat:"Edit",ic:"#",accept:"pdf",how:"Browser · pdf-lib",
+ opts:[{k:"pos",l:"Position",t:"select",o:["Bottom center","Bottom right","Bottom left","Top center","Top right","Top left"],v:"Bottom center"},{k:"start",l:"Start number",t:"number",v:1},{k:"fmt",l:"Format ({n}, {t} = total)",t:"text",v:"Page {n} of {t}"},{k:"size",l:"Font size",t:"number",v:11},{k:"m",l:"Margin (pt)",t:"number",v:24},pageField],
+ async run([f],o){const d=await load(f),font=await d.embedFont(L.StandardFonts.Helvetica),pg=d.getPages(),sz=+o.size||11,m=+o.m||0;
+  parseRange(o.pages,pg.length).forEach((i,k)=>{const p=pg[i],{width:w,height:h}=p.getSize(),t=o.fmt.replace(/\{n\}/g,(+o.start||1)+k).replace(/\{t\}/g,pg.length),tw=font.widthOfTextAtSize(t,sz);
+   const x=o.pos.includes("center")?(w-tw)/2:o.pos.includes("right")?w-m-tw:m,y=o.pos.startsWith("Top")?h-m-sz:m;
+   p.drawText(t,{x,y,size:sz,font,color:L.rgb(.1,.1,.1)})});
+  return [{name:base(f.name)+"-numbered.pdf",blob:await pdfBlob(d)}]}},
+{id:"watermark",n:"Add Watermark",d:"Add a text watermark with opacity and rotation.",cat:"Edit",ic:"❖",accept:"pdf",how:"Browser · pdf-lib",
+ note:"Text watermarks use a Latin-only built-in font. Image watermarks are not included in this single-file version.",
+ opts:[{k:"text",l:"Watermark text",t:"text",v:"CONFIDENTIAL"},{k:"size",l:"Font size",t:"number",v:60},{k:"op",l:"Opacity (0.05–1)",t:"number",v:.3},{k:"rot",l:"Rotation (°)",t:"number",v:45},{k:"pos",l:"Position",t:"select",o:["Center","Top","Bottom"],v:"Center"},pageField],
+ async run([f],o){if(!o.text.trim())throw Error("Enter watermark text.");
+  const d=await load(f),font=await d.embedFont(L.StandardFonts.HelveticaBold),pg=d.getPages(),s=+o.size||60,th=(+o.rot||0)*Math.PI/180,tw=font.widthOfTextAtSize(o.text,s);
+  parseRange(o.pages,pg.length).forEach(i=>{const p=pg[i],{width:w,height:h}=p.getSize(),cx=w/2,cy=o.pos==="Top"?h*.8:o.pos==="Bottom"?h*.2:h/2;
+   p.drawText(o.text,{x:cx-tw/2*Math.cos(th)+s/3*Math.sin(th),y:cy-tw/2*Math.sin(th)-s/3*Math.cos(th),size:s,font,color:L.rgb(.5,.5,.5),opacity:Math.min(1,Math.max(.05,+o.op||.3)),rotate:L.degrees(+o.rot||0)})});
+  return [{name:base(f.name)+"-watermarked.pdf",blob:await pdfBlob(d)}]}},
+{id:"crop",n:"Crop PDF",d:"Trim margins from every page (non-destructive crop box).",cat:"Edit",ic:"⌗",accept:"pdf",how:"Browser · pdf-lib",
+ note:"Sets the visible area; hidden content stays inside the file. Your original is never changed.",
+ opts:["top","right","bottom","left"].map(k=>({k,l:k[0].toUpperCase()+k.slice(1)+" trim (mm)",t:"number",v:0})),
+ async run([f],o){const d=await load(f),mm=2.8346;
+  d.getPages().forEach(p=>{const {width:w,height:h}=p.getSize(),l=o.left*mm,r=o.right*mm,t=o.top*mm,b=o.bottom*mm;
+   if(l+r>=w||t+b>=h||[l,r,t,b].some(v=>v<0||isNaN(v)))throw Error("Crop values are invalid or larger than the page.");p.setCropBox(l,b,w-l-r,h-t-b)});
+  return [{name:base(f.name)+"-cropped.pdf",blob:await pdfBlob(d)}]}},
+{id:"metadata",n:"Edit Metadata",d:"View and change title, author, subject and keywords.",cat:"Edit",ic:"ⓘ",accept:"pdf",how:"Browser · pdf-lib",note:"Blank fields are left unchanged.",
+ opts:[{k:"title",l:"Title",t:"text",v:""},{k:"author",l:"Author",t:"text",v:""},{k:"subject",l:"Subject",t:"text",v:""},{k:"kw",l:"Keywords (comma-separated)",t:"text",v:""}],
+ async info([f]){const d=await load(f);return "Current → Title: "+(d.getTitle()||"–")+" · Author: "+(d.getAuthor()||"–")+" · Subject: "+(d.getSubject()||"–")+" · Keywords: "+(d.getKeywords()||"–")},
+ async run([f],o){const d=await load(f);if(o.title)d.setTitle(o.title);if(o.author)d.setAuthor(o.author);if(o.subject)d.setSubject(o.subject);
+  if(o.kw)d.setKeywords(o.kw.split(",").map(s=>s.trim()).filter(Boolean));
+  return [{name:base(f.name)+"-meta.pdf",blob:await pdfBlob(d)}]}}
+];
+const CATS=["Organize","Optimize","To PDF","From PDF","Edit"];
+const SERVER=["Word to PDF","Excel to PDF","PowerPoint to PDF","HTML to PDF","PDF to Word","PDF to Excel","PDF to PowerPoint","OCR PDF","Protect PDF (encrypt)","Unlock PDF","Compare PDFs","Sign PDF","Edit PDF (canvas editor)"];
+
+/* ---------- Views ---------- */
+const app=$("#app");let urls=[];
+const revoke=()=>{urls.forEach(u=>URL.revokeObjectURL(u));urls=[]};
+function home(){
+  revoke();document.title="BADPDF – Free PDF Tools in Your Browser";
+  app.innerHTML=`<section class="hero"><h1>Every PDF Tool You Need. Completely Free.</h1>
+  <p>Merge, split, compress, convert and edit PDF documents with free tools. Most tools run in your browser. Tools labelled "Server" upload your file to your BADPDF server.</p>
+  <input id="q" class="search" type="search" placeholder="Search PDF tools..." aria-label="Search PDF tools"></section>
+  <div class="tabs" id="tabs"></div><div id="list"></div>
+  <h2 id="about">About</h2><p class="small">BADPDF is an original toolkit powered by open-source libraries. Processing happens locally using pdf-lib, PDF.js and JSZip. Browser processing keeps documents off any server, but it does not remove every risk on your own device.</p>
+  <h2 id="faq">FAQ</h2>
+  <details><summary>Are my files uploaded?</summary><p class="small">Not for tools tagged "Browser" – they run entirely inside your browser tab. Tools tagged "Server" (Office conversions, OCR, encryption, stronger compression) upload the file to the BADPDF server, which processes it in a temporary folder and deletes it afterwards.</p></details>
+  <details><summary>Why do some tools need the server?</summary><p class="small">Word/Excel/PowerPoint conversion, OCR and password encryption need native software (LibreOffice, Tesseract, qpdf) that browsers cannot run. Tools that are not built yet are listed as unavailable rather than faked.</p></details>
+  <details><summary>Is there a file size limit?</summary><p class="small">This page rejects files over ${MAXMB} MB. Very large PDFs may still be slow or run out of memory, depending on your device.</p></details>
+  <details><summary>Is a drawn or typed mark a digital signature?</summary><p class="small">No. A visual mark is not a cryptographically verifiable signature.</p></details>
+  <h2>Privacy</h2><p class="small">No accounts, cookies or analytics are used. Browser tools keep files in memory only. Server tools keep files in a temporary folder only while processing; passwords are never logged.</p>`;
+  let cat="All";const tabs=$("#tabs"),q=$("#q");
+  const draw=()=>{const t=q.value.toLowerCase();
+   tabs.innerHTML=["All",...CATS].map(c=>`<button class="${c===cat?"on":""}" data-c="${c}">${c}</button>`).join("");
+   let h="";const card=x=>`<a class="tool" href="#${x.id}"><span class="tag">${x.srv?"Server":"Browser"}</span><div class="ic">${x.ic}</div><h3>${x.n}</h3><p>${x.d}</p></a>`;
+   for(const c of CATS){if(cat!=="All"&&cat!==c)continue;const m=TOOLS.filter(x=>x.cat===c&&(x.n+x.d).toLowerCase().includes(t));if(m.length)h+=`<h2>${c}</h2><div class="grid">${m.map(card).join("")}</div>`}
+   const off=SERVER.filter(s=>s.toLowerCase().includes(t));
+   if(cat==="All"&&off.length)h+=`<h2>Not available yet</h2><div class="grid">${off.map(s=>`<div class="tool off" aria-disabled="true"><span class="tag">Server</span><div class="ic">⚙</div><h3>${s}</h3><p>Not implemented in this version.</p></div>`).join("")}</div>`;
+   $("#list").innerHTML=h||'<p class="small">No tools match your search.</p>'};
+  tabs.onclick=e=>{if(e.target.dataset.c){cat=e.target.dataset.c;draw()}};q.oninput=draw;draw();
+  if(["#about","#faq"].includes(location.hash))$(location.hash).scrollIntoView();
+}
+function tool(t){
+  revoke();document.title=t.n+" Online Free | BADPDF";let files=[];
+  app.innerHTML=`<div class="crumb"><a href="#">Home</a> › ${t.cat} › ${t.n}</div><h1 style="margin:0">${t.n}</h1><p class="small">${t.d} <b>Processing: ${t.how}</b> – ${t.srv?"your file is uploaded to the server and deleted after processing.":"files stay on your device."}</p>
+  <div class="panel"><div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose files"><b>Drop ${t.dropLabel||(t.accept==="pdf"?"PDF":"image")} file${t.multi?"s":""} here</b><br><span class="small">or click to browse · max ${MAXMB} MB each</span>
+  <input id="fi" type="file" hidden accept="${t.acceptAttr||(t.accept==="pdf"?".pdf,application/pdf":".jpg,.jpeg,.png,.webp,image/*")}" ${t.multi?"multiple":""}></div>
+  <div id="files"></div><div id="info" class="small" style="margin-top:8px"></div>
+  ${t.note?`<div class="msg note">${t.note}</div>`:""}
+  <div class="opts">${t.opts.map(f=>`<label>${f.l}${f.t==="select"?`<select id="o_${f.k}">${f.o.map(v=>`<option ${v==f.v?"selected":""}>${v}</option>`).join("")}</select>`:`<input id="o_${f.k}" type="${f.t}" value="${esc(f.v)}" step="any">`}</label>`).join("")}</div>
+  <div style="margin-top:16px;display:flex;gap:8px"><button class="btn" id="go" disabled>${t.n}</button><button class="btn sec" id="reset">Reset</button></div>
+  <div class="bar" id="bar" hidden><div></div></div><div id="status" role="status"></div><div id="res"></div></div>
+  <h2>Related tools</h2><div class="grid">${TOOLS.filter(x=>x.cat===t.cat&&x.id!==t.id).slice(0,3).map(x=>`<a class="tool" href="#${x.id}"><div class="ic">${x.ic}</div><h3>${x.n}</h3><p>${x.d}</p></a>`).join("")}</div>`;
+  const st=m=>$("#status").innerHTML=m,say=(c,m)=>st(`<div class="msg ${c}">${esc(m)}</div>`);
+  const ready=()=>$("#go").disabled=files.length<(t.min||1);
+  const freeUrl=y=>y&&y.url&&URL.revokeObjectURL(y.url);
+  function list(){$("#files").innerHTML=files.map((x,i)=>`<div class="file">${x.url?`<img src="${x.url}" alt="">`:""}<span>${esc(x.file.name)}</span><small>${fmtSize(x.file.size)}${x.pages?" · "+x.pages+" pages":""}</small>
+   ${t.multi?`<button data-a="up" data-i="${i}" aria-label="Move up">↑</button><button data-a="dn" data-i="${i}" aria-label="Move down">↓</button>`:""}<button data-a="rm" data-i="${i}" aria-label="Remove">✕</button></div>`).join("");ready()}
+  $("#files").onclick=e=>{const b=e.target.closest("button");if(!b)return;const i=+b.dataset.i,a=b.dataset.a;
+   if(a==="rm")freeUrl(files.splice(i,1)[0]);
+   else{const j=a==="up"?i-1:i+1;if(j>=0&&j<files.length)[files[i],files[j]]=[files[j],files[i]]}list()};
+  async function add(fl){st("");const errs=[];
+   for(const f of fl){
+    if(f.size>MAXMB*1048576){errs.push(f.name+": larger than "+MAXMB+" MB");continue}
+    if(f.size===0){errs.push(f.name+": file is empty");continue}
+    const e={file:f};
+    if(t.accept==="any"){if(!t.exts.test(f.name)){errs.push(f.name+": unsupported file type");continue}}else if(t.accept==="pdf"){const h=new TextDecoder().decode(await f.slice(0,5).arrayBuffer());
+     if(h!=="%PDF-"){errs.push(f.name+": not a valid PDF");continue}
+     try{e.pages=(await load(f)).getPageCount()}catch(er){errs.push(f.name+": "+(/encrypt/i.test(er.message)?"password-protected PDFs are not supported":"could not be read (damaged? try Repair PDF)"));continue}
+    }else{if(!/\.(jpe?g|png|webp)$/i.test(f.name)||(t.only&&!t.only.test(f.name.toLowerCase()))){errs.push(f.name+": unsupported image type");continue}e.url=URL.createObjectURL(f)}
+    if(t.multi)files.push(e);else{files.forEach(freeUrl);files=[e];break}}
+   list();if(errs.length)say("err",errs.join(" · "));
+   if(t.info&&files.length)try{$("#info").textContent=await t.info(files.map(y=>y.file))}catch(er){}}
+  const dz=$("#drop"),fi=$("#fi");dz.onclick=()=>fi.click();dz.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fi.click()}};
+  fi.onchange=()=>{add([...fi.files]);fi.value=""};
+  dz.ondragover=e=>{e.preventDefault();dz.classList.add("over")};dz.ondragleave=()=>dz.classList.remove("over");
+  dz.ondrop=e=>{e.preventDefault();dz.classList.remove("over");add([...e.dataTransfer.files])};
+  $("#reset").onclick=()=>{files.forEach(freeUrl);files=[];revoke();list();$("#res").innerHTML="";$("#info").textContent="";st("");$("#bar").hidden=true};
+  $("#go").onclick=async()=>{
+   const o={};t.opts.forEach(f=>o[f.k]=$("#o_"+f.k).value);const bar=$("#bar"),fill=bar.firstElementChild;
+   $("#go").disabled=true;bar.hidden=false;fill.style.width="2%";$("#res").innerHTML="";let noteMsg="";st('<div class="msg note">Processing in your browser…</div>');
+   const ctx={p:(i,n)=>fill.style.width=Math.max(2,i/n*100)+"%",note:m=>noteMsg=m};
+   try{
+    const out=await t.run(files.map(y=>y.file),o,ctx);
+    if(!out.length||out.some(r=>!r.blob.size))throw Error("The tool produced no output.");
+    revoke();fill.style.width="100%";
+    const links=out.map(r=>{const u=URL.createObjectURL(r.blob);urls.push(u);return `<div class="file"><span>${esc(r.name)}</span><small>${fmtSize(r.blob.size)}</small><a class="btn" style="padding:4px 12px" href="${u}" download="${esc(r.name)}">Download</a></div>`}).join("");
+    $("#res").innerHTML=links+(out.length>1?`<button class="btn" id="zip" style="margin-top:10px">Download all as ZIP</button>`:"");
+    say("ok","Done – "+out.length+" file"+(out.length>1?"s":"")+" ready. "+noteMsg);
+    const z=$("#zip");if(z)z.onclick=async()=>{z.disabled=true;const zp=new JSZip();out.forEach(r=>zp.file(r.name,r.blob));
+     const b=await zp.generateAsync({type:"blob"}),u=URL.createObjectURL(b);urls.push(u);const a=document.createElement("a");a.href=u;a.download=t.id+".zip";a.click();z.disabled=false};
+   }catch(er){fill.style.width="0";say("err","Failed: "+(er.message||"unknown error"))}
+   ready()};
+}
+function route(){const id=location.hash.slice(1),t=TOOLS.find(x=>x.id===id);t?(t.ui?t.ui(t):tool(t),scrollTo(0,0)):home()}
+addEventListener("hashchange",route);route();
+</script>
+<script src="server-tools.js"></script>
+<script src="editor-tools.js"></script>
+<script src="extra-tools.js"></script>
+</body>
+</html>

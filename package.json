@@ -1,0 +1,22 @@
+{
+  "name": "badpdf",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BADPDF \u2013 free PDF toolkit (browser-first, self-hosted server tools)",
+  "scripts": {
+    "install:all": "npm install && npm install --prefix server",
+    "dev": "npm run dev --prefix server",
+    "start": "npm start --prefix server",
+    "test": "npm test --prefix server",
+    "test:e2e": "playwright test",
+    "test:all": "npm test && npm run test:e2e",
+    "setup:e2e": "npx playwright install chromium"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "pdf-lib": "^1.17.1"
+  }
+}

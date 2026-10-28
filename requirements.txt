@@ -1,0 +1,65 @@
+BADPDF - REQUIREMENTS AND HOW TO RUN (Windows PowerShell)
+==========================================================
+
+PROJECT FOLDER (run every command from here)
+  C:\Users\dell\Downloads\badpdf-project (3)\badpdf
+  (the folder that contains package.json, server\, e2e\, README.md)
+
+1. REQUIRED (the website + server will not start without these)
+  - Node.js 20 or newer      https://nodejs.org        check:  node -v
+  - npm (comes with Node)                              check:  npm -v
+
+2. NODE PACKAGES (installed automatically by "npm run install:all")
+  Root:    @playwright/test ^1.48, pdf-lib ^1.17            (browser tests only)
+  Server:  express ^4.19.2, multer ^2.0.0, helmet ^7.1.0, cors ^2.8.5,
+           express-rate-limit ^7.4.0, zod ^3.23.8, file-type ^19.6.0,
+           docx ^8.5.0, exceljs ^4.4.0, pptxgenjs ^3.12.0
+  Browser libraries (loaded from cdnjs when the page opens; need internet):
+           pdf-lib 1.17.1, PDF.js 3.11.174, JSZip 3.10.1
+
+3. OPTIONAL PROGRAMS (only for tools tagged "Server"; install what you need)
+  qpdf 10.2+     Protect PDF, Unlock PDF, Repair PDF        winget install --id QPDF.QPDF -e
+  LibreOffice    Word / Excel / PowerPoint / HTML to PDF    winget search libreoffice
+  Poppler        PDF to Word / Excel / PowerPoint           winget search poppler
+  Tesseract      OCR PDF                                    winget search tesseract
+  Ghostscript    Compress PDF (Ghostscript)                 winget search ghostscript
+  After installing, open a NEW PowerShell window (or refresh PATH):
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+  Browser tools (merge, split, edit, sign, compare, ...) need none of these.
+
+4. FIRST-TIME SETUP
+  cd "C:\Users\dell\Downloads\badpdf-project (3)\badpdf"
+  npm run install:all
+
+5. RUN THE SERVER + WEBSITE
+  cd "C:\Users\dell\Downloads\badpdf-project (3)\badpdf"
+  npm start
+  Open:   http://localhost:5000            (the website)
+          http://localhost:5000/api/health (shows which server programs were found: true/false)
+  Stop:   press Ctrl+C in the PowerShell window.
+  Development mode (auto-restart):  npm run dev
+
+6. IF A PROGRAM IS INSTALLED BUT NOT FOUND (set paths, same window, before npm start)
+  $env:QPDF_PATH="C:\Program Files\qpdf 12.4.2\bin\qpdf.exe"
+  $env:SOFFICE_PATH="C:\Program Files\LibreOffice\program\soffice.exe"
+  $env:PDFTOTEXT_PATH="C:\path\to\poppler\Library\bin\pdftotext.exe"
+  $env:PDFTOPPM_PATH="C:\path\to\poppler\Library\bin\pdftoppm.exe"
+  $env:TESSERACT_PATH="C:\Program Files\Tesseract-OCR\tesseract.exe"
+  $env:GS_PATH="C:\Program Files\gs\gs10.xx\bin\gswin64c.exe"
+
+7. OPTIONAL SETTINGS (environment variables; defaults in brackets)
+  PORT [5000]   MAX_FILE_MB [50]   JOB_TIMEOUT_SEC [120]   MAX_CONCURRENT_JOBS [2]
+  MAX_PAGES_OCR [50]   RATE_LIMIT_MAX [60 requests / 15 min]   CORS_ORIGINS [empty]
+  Example:  $env:PORT="8080"; npm start
+
+8. TESTS (optional)
+  npm test                                  server tests (tests skip if a program is missing)
+  npm run setup:e2e                         one-time browser download for browser tests
+  npm run test:e2e                          browser tests (starts the server itself)
+
+9. COMMON PROBLEMS
+  "Cannot find package 'express'"     -> run:  npm run install:all   (not just npm install)
+  "'playwright' is not recognized"    -> run:  npm run install:all
+  "Port 5000 already in use"          -> $env:PORT="5001"; npm start
+  Tool says "not installed"           -> install it (section 3), then check /api/health
+  Server tool upload fails            -> open the site from http://localhost:5000, not by double-clicking the .html
